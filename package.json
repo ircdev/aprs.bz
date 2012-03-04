@@ -1,9 +1,11 @@
 {
-    "name": "application-name"
+    "name": "aprs-bz"
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
       "express": "2.5.8"
     , "jade": ">= 0.0.1"
+    , "socket.io": ">= 0.0.1"
+    , "zmq": ">= 0.0.1"
   }
 }
