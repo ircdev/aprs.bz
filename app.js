@@ -4,15 +4,24 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , zmq = require('zmq')
-  , zmqsock = zmq.socket('sub');
+  , routes = require('./routes');
 
-zmqsock.connect('tcp://127.0.0.1:12777')
+var zmq = require('zmq')
+  , zmqsocket = zmq.socket('sub');
+zmqsocket.connect('tcp://127.0.0.1:12777');
+//zmqsocket.setsockopt(zmq.SUBSCRIBE, 1);
+zmqsocket.subscribe("");
 
 var app = module.exports = express.createServer()
   , io = require('socket.io').listen(app);
 
+io.sockets.on('connection', function (socket) {
+  zmqsocket.on('message', function(data) {
+    console.log("received data: " + data.toString('utf8'));
+    io.sockets.emit('packet', data.toString('utf8'));
+  });
+});
+  
 // Configuration
 
 app.configure(function(){
