@@ -1,15 +1,11 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express')
-  , routes = require('./routes');
+  , routes = require('./routes')
+  , geoip = require('geoip');
 
 var zmq = require('zmq')
   , zmqsocket = zmq.socket('sub');
+
 zmqsocket.connect('tcp://127.0.0.1:12777');
-//zmqsocket.setsockopt(zmq.SUBSCRIBE, 1);
 zmqsocket.subscribe("");
 
 var app = module.exports = express.createServer()
@@ -21,7 +17,13 @@ io.sockets.on('connection', function (socket) {
     io.sockets.emit('packet', data.toString('utf8'));
   });
 });
-  
+
+
+var City = geoip.City;
+var city = new City('./GeoLiteCity.dat');
+var user_location = city.lookupSync(request.connection.remoteAddress);
+console.log(user_location);
+
 // Configuration
 
 app.configure(function(){
@@ -44,6 +46,8 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+
+// WE'LL DO IT LIVE
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
