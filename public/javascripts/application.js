@@ -5,9 +5,14 @@ jQuery(function() {
   var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/d7db25935f9246eb84b3f0847a86d081/997/256/{z}/{x}/{y}.png',
   	cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
   	cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
-    //map.setView(new L.LatLng(33.24617412, -96.42647853), 10).addLayer(cloudmade);
+    map.setView(new L.LatLng(33, -96), 10).addLayer(cloudmade);
     map.locate({setView: true, maxZoom: 16}).addLayer(cloudmade);
 
+    map.on('zoomend', function(e) {
+        console.log(map.getBounds());
+        socket.emit('mapmove', map.getBounds());
+    });
+    
     map.on('locationfound', function(e) {
         console.log(map.getBounds());
         socket.emit('mapmove', map.getBounds());
