@@ -35,8 +35,8 @@ namespace :deploy do
     run <<-CMD
       rm -rf #{latest_release}/log #{latest_release}/node_modules &&
       ln -s #{shared_path}/log #{latest_release}/log &&
-      ln -s #{shared_path}/node_modules #{latest_release}/node_modules
     CMD
+    #ln -s #{shared_path}/node_modules #{latest_release}/node_modules
   end
   
   task :start, :roles => :app do
@@ -75,5 +75,5 @@ end script}
   end
 end
 
-after 'deploy:setup', 'deploy:write_upstart_script'
+#after 'deploy:setup', 'deploy:write_upstart_script'
 after 'deploy:finalize_update', 'deploy:npm'
