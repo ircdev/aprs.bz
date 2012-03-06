@@ -58,22 +58,6 @@ namespace :deploy do
     CMD
   end
   
-  task :write_upstart_script, :roles => :app do
-    upstart_script = %q{
-description "#{application} upstart script"
-start on (local-filesystem and net-device-up)
-stop on shutdown
-respawn
-respawn limit 5 60
-script
-  chdir #{current_path}
-  exec sudo -u #{user} NODE_ENV="production" #{node_bin} #{node_script} >> log/production.log 2>&1
-end script}
-    
-    put upstart_script "/tmp/#{application}.conf"
-    run "#{sudo} mv /tmp/#{application}.conf /etc/init"
-  end
 end
 
-#after 'deploy:setup', 'deploy:write_upstart_script'
 after 'deploy:finalize_update', 'deploy:npm'
