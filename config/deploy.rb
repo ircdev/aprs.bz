@@ -4,7 +4,7 @@ set :repository,  "git://github.com/gmcintire/aprs.bz.git"
 set :branch,      "master"
 set :deploy_via,  :remote_cache
 set :deploy_to,   "/home/deploy/#{application}"
-set :node_path,   "/usr/local/bin/coffee"
+set :node_bin,   "/usr/local/bin/coffee"
 set :node_script, "app.coffee"
 set :user, "deploy"
 set :use_sudo, true
@@ -77,5 +77,5 @@ end script
   end
 end
 
-after 'deploy:setup', 'deploy:write_upstart_script'
+#after 'deploy:setup', 'deploy:write_upstart_script'
 after 'deploy:finalize_update', 'deploy:npm'
