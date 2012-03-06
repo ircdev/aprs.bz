@@ -53,7 +53,6 @@ namespace :deploy do
   
   task :npm, :roles => :app do
     run <<-CMD
-      export PATH=#{node_path}:$PATH &&
       cd #{latest_release} &&
       npm install 
     CMD
@@ -68,7 +67,7 @@ respawn
 respawn limit 5 60
 script
   chdir #{current_path}
-  exec sudo -u #{user} NODE_ENV="production" #{node_path}/node #{node_script} >> log/production.log 2>&1
+  exec sudo -u #{user} NODE_ENV="production" #{node_bin} #{node_script} >> log/production.log 2>&1
 end script
     UPSTART_SCRIPT
     
