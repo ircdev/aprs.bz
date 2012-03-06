@@ -1,6 +1,5 @@
 express = require("express")
 routes = require("./routes")
-geoip = require("geoip")
 geolib = require("geolib")
 zmq = require("zmq")
 zmqsocket = zmq.socket("sub")
