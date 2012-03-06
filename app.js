@@ -1,6 +1,7 @@
 var express = require('express')
   , routes = require('./routes')
-  , geoip = require('geoip');
+  , geoip = require('geoip')
+  , geolib = require('geolib');
 
 var zmq = require('zmq')
   , zmqsocket = zmq.socket('sub');
@@ -13,16 +14,28 @@ var app = module.exports = express.createServer()
 
 io.sockets.on('connection', function (socket) {
   zmqsocket.on('message', function(data) {
-    console.log("received data: " + data.toString('utf8'));
-    io.sockets.emit('packet', data.toString('utf8'));
+    var packet = JSON.parse(data);
+    
+    if (packet.latitude != null && packet.longitude != null)
+    {
+      var inDistance = geolib.isPointInCircle({latitude: packet.latitude, longitude: packet.longitude}, {latitude: 33.24617412, longitude: -96.42647853}, 50000);
+      if (inDistance)
+      {
+        io.sockets.emit('packet', packet);
+        console.log("received data: " + packet.toString('utf8'));
+      }
+    }
+    
+//    console.log("received data: " + data.toString('utf8'));
   });
 });
 
-
+/*
 var City = geoip.City;
 var city = new City('./GeoLiteCity.dat');
-var user_location = city.lookupSync(request.connection.remoteAddress);
+var user_location = city.lookupSync(req.connection.remoteAddress);
 console.log(user_location);
+*/
 
 // Configuration
 
@@ -50,4 +63,5 @@ app.get('/', routes.index);
 // WE'LL DO IT LIVE
 
 app.listen(3000);
+
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
