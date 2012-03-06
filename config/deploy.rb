@@ -76,5 +76,5 @@ end script
   end
 end
 
-#after 'deploy:setup', 'deploy:write_upstart_script'
+after 'deploy:setup', 'deploy:write_upstart_script'
 after 'deploy:finalize_update', 'deploy:npm'
