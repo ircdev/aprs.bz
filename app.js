@@ -12,10 +12,17 @@ zmqsocket.subscribe("");
 var app = module.exports = express.createServer()
   , io = require('socket.io').listen(app);
 
+
 io.sockets.on('connection', function (socket) {
   zmqsocket.on('message', function(data) {
     var packet = JSON.parse(data);
-    
+
+
+  });
+
+  socket.on('mapmove', function (mapcoords) {
+    console.log(mapcoords);
+/*
     if (packet.latitude != null && packet.longitude != null)
     {
       var inDistance = geolib.isPointInCircle({latitude: packet.latitude, longitude: packet.longitude}, {latitude: 33.24617412, longitude: -96.42647853}, 50000);
@@ -25,9 +32,12 @@ io.sockets.on('connection', function (socket) {
         console.log("received data: " + packet.toString('utf8'));
       }
     }
-    
-//    console.log("received data: " + data.toString('utf8'));
+*/
   });
+
+
+
+
 });
 
 /*
