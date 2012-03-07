@@ -53,8 +53,7 @@ namespace :deploy do
   
   task :npm, :roles => :app do
     run <<-CMD
-      cd #{latest_release} &&
-      npm install 
+      cd #{latest_release} && npm install 
     CMD
   end
   
