@@ -8,9 +8,10 @@ zmqsocket.connect "tcp://127.0.0.1:12777"
 zmqsocket.subscribe ""
 app = module.exports = express.createServer()
 io = require("socket.io").listen(app)
-mapbounds = {}
 
 io.sockets.on "connection", (socket) ->
+  mapbounds = {}
+
   zmqsocket.on "message", (data) ->
     packet = JSON.parse(data)
 
