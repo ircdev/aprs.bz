@@ -1,5 +1,6 @@
 express = require("express")
 routes = require("./routes")
+geoip = require("geoip")
 geolib = require("geolib")
 zmq = require("zmq")
 zmqsocket = zmq.socket("sub")
@@ -57,5 +58,5 @@ app.configure "production", ->
   app.use express.errorHandler()
 
 app.get "/", routes.index
-app.listen 80
+app.listen 3000
 console.log "Express server listening on port %d in %s mode", app.address().port, app.settings.env
