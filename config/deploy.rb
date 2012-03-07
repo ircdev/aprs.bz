@@ -32,10 +32,7 @@ namespace :deploy do
   
   task :finalize_update, :except => { :no_release => true } do
     run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
-    run <<-CMD
-      rm -rf #{latest_release}/log #{latest_release}/node_modules &&
-      ln -s #{shared_path}/log #{latest_release}/log &&
-    CMD
+    run "rm -rf #{latest_release}/log #{latest_release}/node_modules && ln -s #{shared_path}/log #{latest_release}/log"
     #ln -s #{shared_path}/node_modules #{latest_release}/node_modules
   end
   
@@ -52,9 +49,7 @@ namespace :deploy do
   end
   
   task :npm, :roles => :app do
-    run <<-CMD
-      cd #{latest_release} && npm install 
-    CMD
+    run "cd #{latest_release} && npm install"
   end
   
 end
