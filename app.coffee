@@ -14,7 +14,7 @@ io.sockets.on "connection", (socket) ->
   zmqsocket.on "message", (data) ->
     packet = JSON.parse(data)
 
-    if packet.latitude? and packet.longitude?
+    if packet.latitude? and packet.longitude? and mapbounds?
       insideMap = geolib.isPointInside
         latitude: packet.latitude
         longitude: packet.longitude
