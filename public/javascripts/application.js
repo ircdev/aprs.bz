@@ -31,7 +31,7 @@ jQuery(function() {
 		var markerLocation = new L.LatLng(data.latitude, data.longitude),
 			marker = new L.Marker(markerLocation);
 		map.addLayer(marker);
-		marker.bindPopup(data.srccallsign).openPopup();
+		marker.bindPopup(data.srccallsign + "<br />" + data.comment).openPopup();
   
   });
 
