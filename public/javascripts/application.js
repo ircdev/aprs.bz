@@ -32,7 +32,7 @@ jQuery(function() {
 			marker = new L.Marker(markerLocation);
 		map.addLayer(marker);
     popupText = data.srccallsign;
-    if data.comment != undefined {popupText = popupText + "<br>" + data.comment; }
+    if (data.comment != undefined) { popupText = popupText + "<br>" + data.comment; }
 		marker.bindPopup(popupText).openPopup();
   
   });
