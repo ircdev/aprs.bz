@@ -9,7 +9,6 @@ html {
 a {
   color: #00B7FF;
 }
-#aprs_map {
-  width: 100%;
-  height: 100%;
+html, body, #aprs_map {
+    height: 100%;
 }
