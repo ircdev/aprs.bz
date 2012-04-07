@@ -10,17 +10,14 @@ jQuery(function() {
     map.locate({setView: true, maxZoom: 16}).addLayer(cloudmade);
 
     map.on('zoomend', function(e) {
-        console.log(map.getBounds());
         socket.emit('mapmove', map.getBounds());
     });
 
     map.on('locationfound', function(e) {
-        console.log(map.getBounds());
         socket.emit('mapmove', map.getBounds());
     });
 
     map.on('dragend', function(e) {
-        console.log(map.getBounds());
         socket.emit('mapmove', map.getBounds());
     });
 
