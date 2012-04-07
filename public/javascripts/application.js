@@ -33,5 +33,4 @@ jQuery(function() {
     marker.bindPopup(popupText).openPopup();
   });
 
-
 });
