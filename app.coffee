@@ -9,39 +9,38 @@ zmqsocket.subscribe ""
 app = module.exports = express.createServer()
 io = require("socket.io").listen(app)
 
-mapbounds = ""
-
 io.sockets.on "connection", (socket) ->
+  mapbounds = ""
   #console.log socket
   socket.on "mapmove", (mapcoords) ->
     console.log mapbounds
     mapbounds = mapcoords
 
-zmqsocket.on "message", (data) ->
-  packet = JSON.parse(data)
-  #console.log packet
+  zmqsocket.on "message", (data) ->
+    packet = JSON.parse(data)
+    #console.log packet
 
-  if packet.latitude? and packet.longitude? and (mapbounds != "")
-    insideMap = geolib.isPointInside
-      latitude: packet.latitude
-      longitude: packet.longitude
-    , [
-      latitude: mapbounds._northEast.lat
-      longitude: mapbounds._southWest.lng
-    ,
-      latitude: mapbounds._northEast.lat
-      longitude: mapbounds._northEast.lng
-    ,
-      latitude: mapbounds._southWest.lat
-      longitude: mapbounds._northEast.lng
-    ,
-      latitude: mapbounds._southWest.lat
-      longitude: mapbounds._southWest.lng
-    ]
-    if insideMap
-      console.log "\n--------------------------------------------------------\n"
-      io.sockets.emit "packet", packet
-      console.log packet
+    if packet.latitude? and packet.longitude? and (mapbounds != "")
+      insideMap = geolib.isPointInside
+        latitude: packet.latitude
+        longitude: packet.longitude
+      , [
+        latitude: mapbounds._northEast.lat
+        longitude: mapbounds._southWest.lng
+      ,
+        latitude: mapbounds._northEast.lat
+        longitude: mapbounds._northEast.lng
+      ,
+        latitude: mapbounds._southWest.lat
+        longitude: mapbounds._northEast.lng
+      ,
+        latitude: mapbounds._southWest.lat
+        longitude: mapbounds._southWest.lng
+      ]
+      if insideMap
+        console.log "\n--------------------------------------------------------\n"
+        socket.emit "packet", packet
+        console.log packet
 
 app.configure ->
   app.set "views", __dirname + "/views"
