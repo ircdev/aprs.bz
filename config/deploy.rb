@@ -3,7 +3,7 @@ set :scm,         :git
 set :repository,  "git://github.com/gmcintire/aprs.bz.git"
 set :branch,      "master"
 set :deploy_via,  :remote_cache
-set :deploy_to,   "/home/deploy/#{application}"
+set :deploy_to,   "/home/deploy/apps/#{application}"
 set :node_bin,   "/usr/local/bin/coffee"
 set :node_script, "app.coffee"
 set :user, "deploy"
