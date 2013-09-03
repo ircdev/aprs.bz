@@ -4,7 +4,7 @@ geolib = require("geolib")
 zmq = require("zmq")
 zmqsocket = zmq.socket("sub")
 
-zmqsocket.connect "tcp://stream.aprs.bz:12777"
+zmqsocket.connect "tcp://localhost:12777"
 zmqsocket.subscribe ""
 app = module.exports = express.createServer()
 io = require("socket.io").listen(app)

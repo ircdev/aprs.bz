@@ -1,6 +1,6 @@
 jQuery(function() {
 //  var socket = io.connect('http://aprs.bz');
-  var socket = io.connect('http://localhost:3000');
+  var socket = io.connect('http://pair.ham.li:3000');
 
   var map = new L.Map('aprs_map');
   var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/d7db25935f9246eb84b3f0847a86d081/997/256/{z}/{x}/{y}.png',
@@ -9,14 +9,22 @@ jQuery(function() {
   map.setView(new L.LatLng(33, -96), 10).addLayer(cloudmade);
   map.locate({setView: true, maxZoom: 16}).addLayer(cloudmade);
 
-  var BaseIcon = L.Icon.extend({
+  var BaseIcon = L.icon({
       iconUrl: '/images/house.png',
       shadowUrl: null,
       iconSize: new L.Point(32, 32),
       iconAnchor: new L.Point(16, 16),
       popupAnchor: new L.Point(0, 0)
   });
-  var houseIcon = new BaseIcon('/images/house.png');
+//  var houseIcon = new BaseIcon('/images/house.png');
+
+var houseIcon = L.icon({
+      iconUrl: '/images/house.png',                                 
+      shadowUrl: null,                   
+      iconSize: new L.Point(32, 32),
+      iconAnchor: new L.Point(16, 16),
+      popupAnchor: new L.Point(0, 0)
+  }); 
 
   map.on('zoomend', function(e) {
       socket.emit('mapmove', map.getBounds());
@@ -31,8 +39,9 @@ jQuery(function() {
   });
 
   socket.on('packet', function (data) {
-    var markerLocation = new L.LatLng(data.latitude, data.longitude);
-    //var iconType = selectIcon(data.symbolcode);
+   var markerLocation = new L.LatLng(data.latitude, data.longitude);
+    console.log(data);
+      //var iconType = selectIcon(data.symbolcode);
     var marker = new L.Marker(markerLocation, {icon: houseIcon});
     map.addLayer(marker);
     popupText = data.srccallsign;
